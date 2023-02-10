@@ -102,10 +102,9 @@ fs.createReadStream(source).pipe(csvStream)
 
         const dimension = calculate_dimension(array);
         const isValid =  dimension % 1 === 0;
-        const result: number[] = [];
 
         if (!isValid) {
-            console.log(`${data.id},[${result}],${isValid}`);
+            console.log(`${data.id},"[]",${isValid}`);
             return;
         }
 
@@ -123,8 +122,6 @@ fs.createReadStream(source).pipe(csvStream)
             new_to_old_index_map.set(new_index, old_index);
         });
 
-
-        console.log('new_to_old_index_map', new_to_old_index_map)
 
         // TODO: iterate not using the original array but using Map keys or values
         // there must be a cleaner way of doing this
@@ -146,11 +143,13 @@ fs.createReadStream(source).pipe(csvStream)
             return value;
         })
 
-        console.log('--------------')
-        console.log('old:')
-        print_out_arr(array)
-        console.log('new:')
-        print_out_arr(new_array)
-        console.log('--------------')
+        console.log(`${data.id},"[${new_array}]",${isValid}`);
+
+        // console.log('--------------')
+        // console.log('old:')
+        // print_out_arr(array)
+        // console.log('new:')
+        // print_out_arr(new_array)
+        // console.log('--------------')
 
     })
