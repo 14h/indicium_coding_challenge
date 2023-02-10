@@ -1,0 +1,15 @@
+{
+    "name": "indicium_coding_challenge",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "git@github.com:14h/indicium_coding_challenge.git",
+    "author": "Abdallah Kawji <contact@abdallah.dev>",
+    "license": "MIT",
+    "devDependencies": {},
+    "dependencies": {
+        "csv-stream": "^0.2.0",
+        "fast-csv": "^4.3.6",
+        "request": "^2.88.2",
+        "typescript": "^4.9.5"
+    }
+}

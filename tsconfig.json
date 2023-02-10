@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "esModuleInterop": true,
+        "module": "commonjs",
+//        "outDir": "build",
+        "sourceMap": false,
+        "allowJs": false,
+        "moduleResolution": "node",
+        "rootDir": ".",
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "noUnusedLocals": true,
+        "alwaysStrict": true,
+        "lib": [
+            "dom",
+            "es6",
+            "es7",
+            "es2017"
+        ],
+        "baseUrl": ".",
+    },
+//    "include": [
+////        "src/**/*",
+////        "test/**/*"
+//    ],
+    "exclude": [
+        "./node_modules",
+    ]
+}
