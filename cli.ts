@@ -80,70 +80,45 @@ const calc_new_index = (
 
 
 const options = {
-    delimiter : ',',
-    endLine : '\n',
-    columns : ['id', 'json'],
-    columnOffset : 1,
-    escapeChar : '"',
-    enclosedChar : '"'
+    delimiter: ',',
+    endLine: '\n',
+    columns: ['id', 'json'],
+    columnOffset: 1,
+    escapeChar: '"',
+    enclosedChar: '"'
 };
 
 const csvStream = csv.createStream(options);
 
 fs.createReadStream(source).pipe(csvStream)
-    .on('error',function(err: any){
+    .on('error', (err: any) => {
         console.error(err);
     })
-    .on('data',function(data: any){
+    .on('data', (data: any) => {
         const array = JSON.parse(data.json);
 
-        const old_index_to_value_map: Map<number, number> = new Map();
-        const new_to_old_index_map: Map<number, number> = new Map();
+        // const new_to_old_index_map: Map<number, number> = new Map();
 
         const dimension = calculate_dimension(array);
-        const isValid =  dimension % 1 === 0;
+        const isValid = dimension % 1 === 0;
 
         if (!isValid) {
             console.log(`${data.id},"[]",${isValid}`);
             return;
         }
 
-        // TODO: investigate if we're gonna support other types as well
-        array.forEach((value: number, old_index: number) => {
-            // store array values in map so we can access them at a later point
-            old_index_to_value_map.set(old_index, value);
+        const out = Array(array.length).fill(0);
 
-
+        for (let old_index = 0; old_index < array.length; old_index++) {
             const column_index = old_index % dimension;
             const row_index = Math.floor(old_index / dimension);
 
             const new_index = calc_new_index(array, old_index, dimension, column_index, row_index);
 
-            new_to_old_index_map.set(new_index, old_index);
-        });
+            out[new_index] = array[old_index]
+        }
 
-
-        // TODO: iterate not using the original array but using Map keys or values
-        // there must be a cleaner way of doing this
-        const new_array = array.map((_value: number, new_index: number) => {
-            const old_index = new_to_old_index_map.get(new_index);
-
-            if (old_index === undefined) {
-                // TODO: throw error
-                return;
-            }
-
-            const value = old_index_to_value_map.get(old_index);
-
-            if (value === undefined) {
-                // TODO: throw error
-                return;
-            }
-
-            return value;
-        })
-
-        console.log(`${data.id},"[${new_array}]",${isValid}`);
+        console.log(`${data.id},"[${out}]",${isValid}`);
 
         // console.log('--------------')
         // console.log('old:')
